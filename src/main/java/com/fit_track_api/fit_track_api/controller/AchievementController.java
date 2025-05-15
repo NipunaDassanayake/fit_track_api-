@@ -36,7 +36,6 @@ public class AchievementController {
     public ResponseEntity<String> updateAchievement(
             @PathVariable Long achievementId,
             @RequestBody UpdateAchievementDTO updateAchievementDTO) {
-        System.out.println(updateAchievementDTO.getDescription());
         Achievement updatedAchievement = achievementService.updateAchievement(achievementId, updateAchievementDTO);
         return ResponseEntity.ok("Achievement updated successfully ");
     }

@@ -115,7 +115,7 @@ public class AchievementServiceImpl implements AchievementService {
 
             return achievementRepository.save(existingAchievement);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to update post with ID: " + achievementId, e);
+            throw new RuntimeException("Failed to update achievement with ID: " + achievementId, e);
         }
     }
 
@@ -192,7 +192,7 @@ public class AchievementServiceImpl implements AchievementService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!achievement.getLikedBy().contains(user)) {
+        if (achievement.getLikedBy().contains(user)) {
             achievement.getLikedBy().remove(user);
             achievement.setLikedCount(achievement.getLikedBy().size());
             achievementRepository.save(achievement);
