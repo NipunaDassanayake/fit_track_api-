@@ -71,4 +71,11 @@ public class AchievementController {
         achievementService.unlikeAchievement(achievementId, userId);
         return ResponseEntity.ok("achievement unliked successfully");
     }
+
+    @GetMapping
+    public ResponseEntity<List<AchievementResponseDTO>> getAllAchievements() {
+        List<AchievementResponseDTO> achievements = achievementService.getAllAchievements();
+        return ResponseEntity.ok(achievements);
+    }
+
 }
