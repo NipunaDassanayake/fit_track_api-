@@ -57,6 +57,11 @@ public class QuestionnaireController {
         QuestionDTO updated = questionnaireService.updateQuestion(dto);
         return ResponseEntity.ok(updated);
     }
+    @GetMapping
+    public ResponseEntity<List<QuestionDTO>> getAllQuestions() {
+        List<QuestionDTO> questions = questionnaireService.getAllQuestions();
+        return ResponseEntity.ok(questions);
+    }
 
 
 }
