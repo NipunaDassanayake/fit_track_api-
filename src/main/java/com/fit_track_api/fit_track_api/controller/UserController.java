@@ -7,6 +7,7 @@ import com.fit_track_api.fit_track_api.controller.dto.response.GetAllUsersRespon
 import com.fit_track_api.fit_track_api.controller.dto.response.GetUserByIdResponseDTO;
 import com.fit_track_api.fit_track_api.model.User;
 import com.fit_track_api.fit_track_api.service.UserService;
+import com.nimbusds.oauth2.sdk.ErrorResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
@@ -33,21 +34,36 @@ public class UserController {
         return ResponseEntity.ok("User Created Successfully");
     }
     @PostMapping("/login")
-    public ResponseEntity<User> loginUserLocal(@RequestBody LoginRequestDTO loginRequestDTO){
-        System.out.println(loginRequestDTO.getEmail());
-        return ResponseEntity.ok(userService.loginUserLocal(loginRequestDTO));
+    public ResponseEntity<Object> loginUserLocal(@RequestBody LoginRequestDTO loginRequestDTO) {
+        try {
+            User user = userService.loginUserLocal(loginRequestDTO);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            // Return a detailed error message
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @ModelAttribute UserUpdateRequestDTO userUpdateRequestDTO) {
-        userService.updateUser(id, userUpdateRequestDTO);
-        return ResponseEntity.ok("User updated successfully");
+        try {
+            userService.updateUser(id, userUpdateRequestDTO);
+            return ResponseEntity.ok("User updated successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
-        return ResponseEntity.status(200).body("User deleted Successfully");
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.status(200).body("User deleted Successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
