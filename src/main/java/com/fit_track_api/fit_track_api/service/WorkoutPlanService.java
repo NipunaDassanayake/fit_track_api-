@@ -5,6 +5,7 @@ import com.fit_track_api.fit_track_api.controller.dto.response.WorkoutPlanRespon
 import com.fit_track_api.fit_track_api.model.WorkoutPlan;
 import org.springframework.http.ResponseEntity;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 public interface WorkoutPlanService {
@@ -12,7 +13,7 @@ public interface WorkoutPlanService {
     List<WorkoutPlanResponseDTO> getAllPlans();
     public ResponseEntity<WorkoutPlanResponseDTO> completeExercise(Long userId, Long workoutPlanId, Long exerciseId);
     public WorkoutPlan participateInWorkoutPlan(Long userId, Long workoutPlanId);
-    void deleteWorkoutPlan(Long planId);
+    void deleteWorkoutPlan(Long planId,Long userId) throws AccessDeniedException;
     public void likeWorkoutPlan(Long workoutPlanId, Long userId);
     public void unlikeWorkoutPlan(Long workoutPlanId, Long userId);
 

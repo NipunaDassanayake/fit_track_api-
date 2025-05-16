@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -101,6 +102,7 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
                 exDTO.setName(ex.getName());
                 exDTO.setDescription(ex.getDescription());
                 exDTO.setOrder(ex.getOrder());
+                exDTO.setImageUrl(ex.getImageUrl());
                 return exDTO;
             }).collect(Collectors.toList());
 
@@ -220,9 +222,14 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     }
 
     @Override
-    public void deleteWorkoutPlan(Long planId) {
+    public void deleteWorkoutPlan(Long planId, Long userId) throws AccessDeniedException {
         WorkoutPlan workoutPlan = workoutPlanRepository.findById(planId)
                 .orElseThrow(() -> new ResourceNotFoundException("Workout plan not found"));
+
+        // Check if the requesting user is the owner of the workout plan
+        if (!workoutPlan.getCreator().getId().equals(userId)) {
+            throw new AccessDeniedException("You are not authorized to delete this workout plan.");
+        }
 
         // Delete related user participations and user exercises
         List<UserWorkoutPlan> userWorkoutPlans = userWorkoutPlanRepository.findByWorkoutPlanId(planId);
@@ -231,9 +238,10 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         }
         userWorkoutPlanRepository.deleteAll(userWorkoutPlans);
 
-        // Delete the workout plan (thanks to cascade = ALL, exercises and questionnaires get deleted too)
+        // Delete the workout plan (cascade = ALL handles exercises and questionnaires)
         workoutPlanRepository.delete(workoutPlan);
     }
+
 
     @Transactional
     @Override
