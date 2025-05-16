@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
@@ -53,8 +54,8 @@ public class WorkoutPlanController {
 
 
     @DeleteMapping("/{planId}")
-    public ResponseEntity<String> deleteWorkoutPlan(@PathVariable Long planId) {
-        workoutPlanService.deleteWorkoutPlan(planId);
+    public ResponseEntity<String> deleteWorkoutPlan(@PathVariable Long planId, @RequestParam Long userId) throws AccessDeniedException {
+        workoutPlanService.deleteWorkoutPlan(planId, userId);
         return ResponseEntity.ok("Workout plan deleted successfully");
     }
 
