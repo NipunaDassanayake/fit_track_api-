@@ -26,9 +26,12 @@ public class AchievementController {
             @RequestParam Long userId,
             @PathVariable Long workoutPlanId,
             @ModelAttribute CreateAchievementDTO createAchievementDTO) {
-
-        Achievement achievement = achievementService.shareAchievement(userId, workoutPlanId, createAchievementDTO);
-        return ResponseEntity.ok("User shared an achievement");
+        try {
+            Achievement achievement = achievementService.shareAchievement(userId, workoutPlanId, createAchievementDTO);
+            return ResponseEntity.ok("User shared an achievement");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
     }
 
 
