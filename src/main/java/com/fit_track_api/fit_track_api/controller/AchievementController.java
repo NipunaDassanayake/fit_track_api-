@@ -35,7 +35,7 @@ public class AchievementController {
     @PutMapping("/{achievementId}")
     public ResponseEntity<String> updateAchievement(
             @PathVariable Long achievementId,
-            @RequestBody UpdateAchievementDTO updateAchievementDTO) {
+            @ModelAttribute UpdateAchievementDTO updateAchievementDTO) {
         Achievement updatedAchievement = achievementService.updateAchievement(achievementId, updateAchievementDTO);
         return ResponseEntity.ok("Achievement updated successfully ");
     }
