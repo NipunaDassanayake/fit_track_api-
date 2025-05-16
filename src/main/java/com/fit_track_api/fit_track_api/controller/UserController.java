@@ -21,12 +21,15 @@ public class UserController {
 
     private UserService userService;
 
+
     @PostMapping
     public ResponseEntity<String> registerUser(@RequestBody CreateUserRequestDTO createUserRequestDTO){
-        System.out.println(createUserRequestDTO.getPassword());
-        System.out.println(createUserRequestDTO.getUsername());
-        System.out.println(createUserRequestDTO.getEmail());
-        userService.registerUser(createUserRequestDTO);
+        try {
+            userService.registerUser(createUserRequestDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
         return ResponseEntity.ok("User Created Successfully");
     }
     @PostMapping("/login")
