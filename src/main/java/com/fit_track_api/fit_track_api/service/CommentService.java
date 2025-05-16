@@ -9,7 +9,7 @@ import java.util.List;
 public interface CommentService {
     Comment addComment(Long achievementId, Long userId, CreateCommentRequestDTO dto);
     Comment updateComment(Long commentId, String newContent);
-    void deleteComment(Long commentId);
+    void deleteComment(Long commentId , Long userId);
     public List<GetCommentResponseDTO> getCommentsByAchievement(Long achievementId);
 }
 
