@@ -21,9 +21,9 @@ public class CommentController {
 
 
     @PostMapping("/achievement/{achievementId}/user/{userId}")
-    public Comment addComment(@PathVariable Long achievementId , @PathVariable Long userId , @RequestBody CreateCommentRequestDTO createCommentRequestDTO){
-        return commentService.addComment(achievementId,userId,createCommentRequestDTO);
-
+    public ResponseEntity<String> addComment(@PathVariable Long achievementId , @PathVariable Long userId , @RequestBody CreateCommentRequestDTO createCommentRequestDTO){
+         commentService.addComment(achievementId,userId,createCommentRequestDTO);
+        return ResponseEntity.ok("Comment added successfully");
     }
 
     @PutMapping("/{commentId}")
@@ -33,8 +33,8 @@ public class CommentController {
 
     }
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId){
-        commentService.deleteComment(commentId);
+    public ResponseEntity<String> deleteComment(@PathVariable Long commentId,@RequestParam Long userId){
+        commentService.deleteComment(commentId,userId);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/achievement/{achievementId}")
