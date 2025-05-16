@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
     public User loginUserLocal(LoginRequestDTO loginRequestDTO) {
         User existingUser = userRepository.findByEmail(loginRequestDTO.getEmail()).orElseThrow(()->new RuntimeException("User not found with email : "+loginRequestDTO.getEmail()));
         if(!passwordEncoder.matches(loginRequestDTO.getPassword(), existingUser.getPassword())){
-            throw new RuntimeException("User password does not match");
+            throw new RuntimeException("Invalid Username or password");
         }
         return existingUser;
     }
