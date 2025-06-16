@@ -47,9 +47,7 @@ public class AchievementServiceImpl implements AchievementService {
         UserWorkoutPlan userWorkoutPlan = userWorkoutPlanRepository
                 .findByUserIdAndWorkoutPlanId(userId, workoutPlanId);
 
-        if (!userWorkoutPlan.isCompleted()) {
-            throw new IllegalStateException("Workout plan must be completed to share as an achievement");
-        }
+
 
         List<String> imageUrls = new ArrayList<>();
         if (createAchievementDTO.getImageUrls() != null && !createAchievementDTO.getImageUrls().isEmpty()) {
