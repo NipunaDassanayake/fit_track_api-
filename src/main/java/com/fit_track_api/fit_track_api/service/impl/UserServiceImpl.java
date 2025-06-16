@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
             user.setAuthProvider(AuthProvider.GOOGLE);
             userRepository.save(user);
         }
-
+        System.out.println("User created/found: Email = " + user.getEmail() + ", Username = " + user.getUsername() + ", AuthProvider = " + user.getAuthProvider());
         return user;
     }
 
