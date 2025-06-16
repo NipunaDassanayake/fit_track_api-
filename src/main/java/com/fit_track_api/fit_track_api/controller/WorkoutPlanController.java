@@ -24,7 +24,7 @@ public class WorkoutPlanController {
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<WorkoutPlanResponseDTO> createWorkoutPlan(
             @PathVariable Long userId,
-            @Valid @ModelAttribute CreateWorkoutPlanRequestDTO requestDTO) {
+             @ModelAttribute CreateWorkoutPlanRequestDTO requestDTO) {
 
         WorkoutPlanResponseDTO responseDTO = workoutPlanService.createPlan(requestDTO, userId);
         return ResponseEntity.ok(responseDTO);
